@@ -53,3 +53,33 @@ exports.index = function(req, res){
  		res.redirect('/login');
  	}
 };
+
+exports.login = function(req, res){
+	res.render('login',{title: 'Login'});
+};
+
+exports.doLogin = function(req, res){
+	if(req.body.Email) {
+		User.findOne({email: req.body.Email}, '_id email name', 
+						function(err, user){
+							if(!err){
+								if(!user){
+									res.redirect('/login?404=user');
+								}else{
+									req.session.user={_id: user._id,
+													  name: user.name,
+													  email: user.email};
+									req.session.loggedIn=true;
+									console.log("Logged in user: "+user);
+									res.redirect('/user');
+								}
+							}
+							else{
+								res.redirect('/login?404=user');
+							}
+						});
+	}
+	else{
+		res.redirect('/login?404=user');
+	}
+};
