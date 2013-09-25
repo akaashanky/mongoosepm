@@ -28,7 +28,7 @@ exports.doCreate = function(req, res){
      		}else{
      			//Success
      			console.log("Project created and saved! "+project);
-     			res.send('This is where the projects by User Id page will go.... I think.');
+     			res.redirect('/user');
      		}
 
 		});
@@ -37,3 +37,28 @@ exports.doCreate = function(req, res){
 	}
 
 };
+
+exports.byUser = function(req, res){
+	if(req.params.userid){
+		Project.findByUserID(req.params.userid, function(err, projects){
+			if(!err){
+				res.json(projects);
+			}else{
+				res.json({
+					status: "error",
+					error: "Error finding projects"
+				});
+			}
+		});
+
+	}else{
+		res.json({
+					status: "error",
+					error: "Either not logged in, or not logged in as the right user."
+				});
+	}
+};
+
+exports.index = function(req, res){
+
+}

@@ -1,10 +1,17 @@
 extends layout
+block headjs
+ script()
+    var userID = "#{userID}";
+ script(src="/javascripts/user.js")
 block content
  h1 Mongoose Project Management
    h2= name
    p Email: #{email}
- h3 Actions 
-  ul
+   h3 My projects
+     ul#myprojects
+      li loading...
+   h3 Actions 
+     ul
        li
          a(href="/project/new") Create a new project
        li
